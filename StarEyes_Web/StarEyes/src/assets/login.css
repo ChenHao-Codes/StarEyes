@@ -1,0 +1,7 @@
+#login_bg {
+    /*background: url("../assets/shanghai.jpg") center;*/
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    position: fixed;
+}
