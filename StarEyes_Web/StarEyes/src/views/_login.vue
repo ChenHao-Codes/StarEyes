@@ -13,8 +13,8 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width: 100%" @click="login"
-          >登 录
-        </el-button>
+          >登 录</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
@@ -23,13 +23,16 @@
 <script setup>
 import { ref, reactive, getCurrentInstance } from "vue";
 import { User, Lock } from "@element-plus/icons-vue";
+import { ElMessage } from "element-plus";
 import request from "../request";
 import router from "../router";
-import { saveAccessToken } from "../utils/token.js";
-import { user } from "../common/data.js";
 
-//如果需要获取当前组件实例，使用{proxy} = getCurrentInstance() 获取到proxy代理对象。
 const { proxy } = getCurrentInstance();
+
+const admin = reactive({
+  id: "10001",
+  password: "Aa123456",
+});
 
 const rules = reactive({
   id: [
@@ -39,37 +42,34 @@ const rules = reactive({
   password: [{ required: true, message: "请输入账户密码", trigger: "change" }],
 });
 
+const user = reactive({});
+
 const login = () => {
   // ES6写法
   proxy.$refs.ruleFormRef.validate((valid) => {
-    // 前端输入验证
     if (valid) {
-      request.post("/login", user).then((res) => {
-        if (res.id != "-1") {
-          user.token = res.token;
-          if (saveAccessToken(res.token)) {
-            router.push("/dashboard");
-          } else {
-            ElNotification({
-              type: "error",
-              message: "账户Token保存失败！请尝试重新登录。",
-            });
-          }
+      // 往后端发送包 - http://localhost:9090 + /user/login
+      // 后端返回的包格式{"code": "200", "msg": "error\info", "data":null}
+      request.post("/user/login", user).then((res) => {
+        if (res) {
+          ElMessage({
+            type: "info",
+            message: "登陆成功！",
+          });
+          router.push("/home");
         } else {
           ElMessage({
             type: "error",
-            message: "账户或密码错误！",
+            message: "登陆失败！",
           });
         }
       });
     } else {
       ElMessage({
         type: "error",
-        message: "账户密码不能为空！",
+        message: "用户名或密码错误！",
       });
     }
   });
 };
 </script>
-
-export default { setup() { return { rules, user, login, }; }, };

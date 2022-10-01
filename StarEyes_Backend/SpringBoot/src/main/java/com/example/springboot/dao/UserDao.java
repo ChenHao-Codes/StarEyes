@@ -4,11 +4,15 @@ import com.example.springboot.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 @Mapper
 public interface UserDao {
-    List<User> findAll();
+
+    User loginByID(@Param("id") String id, @Param("password")String password);
+
+    Integer saveToken(@Param("id") String id, @Param("token") String token);
+
+
+    /*List<User> findAll();
 
     User getByID(Integer id);
 
@@ -19,5 +23,5 @@ public interface UserDao {
 
     void update(User user);
 
-    Integer delete(Integer id);
+    Integer delete(Integer id);*/
 }

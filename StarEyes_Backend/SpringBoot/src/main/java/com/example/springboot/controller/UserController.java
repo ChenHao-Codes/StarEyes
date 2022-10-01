@@ -4,70 +4,34 @@ import com.example.springboot.dao.UserDao;
 import com.example.springboot.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import com.example.springboot.util.TokenProcessor;
+
 
 //注解
 @RestController
-@RequestMapping("/user")    //默认是 get 请求
-//@RequestMapping("/user" ,method = RequestMethod.POST) //指定请求
+//@RequestMapping("/user")    //默认是 get 请求
 public class UserController {
     @Autowired
     private UserDao userDao;
 
-    //=-=-==-==-=-=-=-=-==-=-=-=-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public User login(@RequestBody User user){
-        if(user.getId() == null || user.getPassword() == null){
-            throw new RuntimeException("参数错误！");
-        }
-        else {
-            User result = userDao.checkByID(user.getId(), user.getPassword());
-            if(result == null){
-                // 后续会封装好，这里直接报错有点直接。
-                throw new RuntimeException("用户名或密码错误！");
+    @PostMapping(value = "/login")
+    public User login(@RequestBody User user) {
+        if (user.getId() == null || user.getPassword() == null) {
+            throw new RuntimeException("error:前端用户名或密码为空");
+        } else {
+            User result = userDao.loginByID(user.getId(), user.getPassword());
+            if (result == null) {
+                user.setId("-1");
+                return user;
+            } else {
+                TokenProcessor newToken = new TokenProcessor();
+                String token = newToken.makeToken();
+                user.setToken(token);
+                Integer saveFlag = userDao.saveToken(user.getId(), user.getToken());
+                System.out.println("saveFlag: " + saveFlag);
+                System.out.println("token: " + token);
+                return user;
             }
-            else return result;
         }
-    }
-    //=-=-==-==-=-=-=-=-==-=-=-=-
-
-    @GetMapping()//括号里没用就用12行定义的，即/user
-    public List<User> hello() {
-        return userDao.findAll();
-    }
-
-    // PathVariable 根据/{}中的内容获取参数！！
-    @GetMapping("/{id}")
-    public User findByID(@PathVariable Integer id) {
-        return userDao.getByID(id);
-    }
-
-    @GetMapping("/check")
-    public User checkByID(String id, String password) {
-        return userDao.checkByID(id, password);
-    }
-
-    @PostMapping
-    public void save(@RequestBody User user) {      //RequestBody 接受一个 json 参数
-        if(user.getId() == null || user.getPassword() == null){
-            throw new RuntimeException("参数错误！");
-        }
-        else userDao.insert(user);
-    }
-
-    @PutMapping
-    public void update(@RequestBody User user){
-        if(user.getId() == null){
-            throw new RuntimeException("参数错误！");
-        }
-        else userDao.update(user);
-    }
-
-    @DeleteMapping("/{id}")
-    public boolean delete(@PathVariable Integer id){
-        if(id == null){
-            throw new RuntimeException("参数错误！");
-        }
-        else return userDao.delete(id) == 1;
     }
 }
