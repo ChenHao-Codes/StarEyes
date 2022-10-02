@@ -24,9 +24,8 @@
 import { ref, reactive, getCurrentInstance } from "vue";
 import { User, Lock } from "@element-plus/icons-vue";
 import request from "../request";
-import router from "../router";
-import { saveAccessToken } from "../utils/token.js";
-import { user } from "../common/data.js";
+import router from "../router/router";
+import { saveUserInfo, user } from "../common/data";
 
 //如果需要获取当前组件实例，使用{proxy} = getCurrentInstance() 获取到proxy代理对象。
 const { proxy } = getCurrentInstance();
@@ -47,13 +46,8 @@ const login = () => {
       request.post("/login", user).then((res) => {
         if (res.id != "-1") {
           user.token = res.token;
-          if (saveAccessToken(res.token)) {
+          if (saveUserInfo(user.id, res.token)) {
             router.push("/dashboard");
-          } else {
-            ElNotification({
-              type: "error",
-              message: "账户Token保存失败！请尝试重新登录。",
-            });
           }
         } else {
           ElMessage({
@@ -71,5 +65,3 @@ const login = () => {
   });
 };
 </script>
-
-export default { setup() { return { rules, user, login, }; }, };

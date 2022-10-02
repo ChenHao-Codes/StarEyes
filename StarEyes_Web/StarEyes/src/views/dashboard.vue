@@ -4,17 +4,13 @@
 
 <script setup>
 import { ElMessage } from "element-plus";
-import { getAccessToken } from "../utils/token.js";
-import { user } from "../common/data.js";
+import { getToken, user } from "../common/data";
 
-var token = getAccessToken();
-ElNotification({
-  type: "info",
-  message: "token: " + token,
-});
+let token = getToken();
+
 
 ElMessage({
   type: "info",
-  message: "user: " + user.id,
+  message: "Welcome! User " + user.id + ".",
 });
 </script>

@@ -1,19 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
+import request from "../request";
+import { getToken, getID, user } from "../common/data";
 
 const routes = [
   {
     path: "/",
     name: "redirect",
     redirect: "/login",
-    meat: {
-      title: "首页",
-    },
   },
   {
     path: "/home",
     name: "home",
     component: () => import("../views/home.vue"),
-    meat: {
+    meta: {
       title: "首页",
     },
   },
@@ -21,7 +20,7 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import("../views/login.vue"),
-    meat: {
+    meta: {
       title: "登录",
     },
   },
@@ -29,8 +28,9 @@ const routes = [
     path: "/dashboard",
     name: "dashboard",
     component: () => import("../views/dashboard.vue"),
-    meat: {
+    meta: {
       title: "控制台",
+      requiresAuth: true,
     },
   },
 ];
@@ -41,11 +41,34 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // 路由发生变化修改页面title
+  if (to.meta.requiresAuth == true) {
+    if (getToken()) {
+      console.log("user.id: " + getID());
+      // 有token, 交给后端进行验证
+      request.post("/api/auth/verify", user).then((res) => {
+        if (res == true) {
+          next();
+        } else {
+          next({
+            path: "/login",
+          });
+        }
+      });
+    } else {
+      ElNotification({
+        type: "warning",
+        message: "登录会话已过期，请重新登录!",
+      });
+      next({
+        path: "/login",
+      });
+    }
+  } else {
+    next();
+  }
   if (to.meta.title) {
     document.title = to.meta.title;
   }
-  next();
 });
 
 export default router;

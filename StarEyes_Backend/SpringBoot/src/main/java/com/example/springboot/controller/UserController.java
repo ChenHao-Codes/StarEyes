@@ -2,14 +2,16 @@ package com.example.springboot.controller;
 
 import com.example.springboot.dao.UserDao;
 import com.example.springboot.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import com.example.springboot.util.TimeChecker;
+import com.example.springboot.common.Authorization;
 import com.example.springboot.util.TokenProcessor;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 //注解
 @RestController
-//@RequestMapping("/user")    //默认是 get 请求
 public class UserController {
     @Autowired
     private UserDao userDao;
@@ -22,16 +24,23 @@ public class UserController {
             User result = userDao.loginByID(user.getId(), user.getPassword());
             if (result == null) {
                 user.setId("-1");
-                return user;
             } else {
                 TokenProcessor newToken = new TokenProcessor();
                 String token = newToken.makeToken();
                 user.setToken(token);
-                Integer saveFlag = userDao.saveToken(user.getId(), user.getToken());
-                System.out.println("saveFlag: " + saveFlag);
-                System.out.println("token: " + token);
-                return user;
+                userDao.saveToken(user.getId(), user.getToken());
+
+                TimeChecker timeCheck = new TimeChecker();
+                String expTime = timeCheck.getExpirationtime();
+                userDao.saveExpTime(user.getId(), expTime);
             }
+            return user;
         }
+    }
+
+    @PostMapping(value = "/api/auth/verify")
+    public boolean verify(@RequestBody User user) {
+        Authorization auth = new Authorization();
+        return auth.verify(user);
     }
 }

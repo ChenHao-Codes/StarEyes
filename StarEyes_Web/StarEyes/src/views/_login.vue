@@ -25,7 +25,7 @@ import { ref, reactive, getCurrentInstance } from "vue";
 import { User, Lock } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import request from "../request";
-import router from "../router";
+import router from "../router/router";
 
 const { proxy } = getCurrentInstance();
 

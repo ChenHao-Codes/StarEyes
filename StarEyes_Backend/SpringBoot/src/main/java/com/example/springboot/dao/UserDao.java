@@ -11,6 +11,11 @@ public interface UserDao {
 
     Integer saveToken(@Param("id") String id, @Param("token") String token);
 
+    Integer saveExpTime(@Param("id") String id, @Param("time") String expTime);
+
+    String getToken(@Param("id") String id);
+
+    String gerExpTime(@Param("id") String id);
 
     /*List<User> findAll();
 

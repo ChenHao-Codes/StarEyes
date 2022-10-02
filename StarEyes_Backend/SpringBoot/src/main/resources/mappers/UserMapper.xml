@@ -35,4 +35,16 @@
         <update id="saveToken">
                 UPDATE sys_users SET token = #{token} WHERE id = #{id};
         </update>
+
+        <update id="saveExpTime">
+                UPDATE sys_users SET exptime = #{time} WHERE id = #{id};
+        </update>
+
+        <select id="getToken" resultType="java.lang.String">
+                SELECT token FROM sys_users WHERE id = #{id};
+        </select>
+
+        <select id="gerExpTime" resultType="java.lang.String">
+                SELECT exptime FROM sys_users WHERE id = #{id};
+        </select>
 </mapper>

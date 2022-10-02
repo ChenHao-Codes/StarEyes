@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
+import { getToken } from "./common/data";
 
 const request = axios.create({
   baseURL: "http://localhost:9090", // 注意！！ 这里是全局统一加上了 后端接口前缀，后端必须进行跨域配置！
@@ -13,13 +14,10 @@ const request = axios.create({
 });
 
 // request 拦截器
-// 可以自请求发送前对请求做一些处理
-// 比如统一加token，对请求参数统一加密
 request.interceptors.request.use(
   (config) => {
     config.headers["Content-Type"] = "application/json;charset=utf-8";
-
-    // config.headers['token'] = user.token;  // 设置请求头
+    config.headers.Authorization = getToken();
     return config;
   },
   (error) => {
@@ -28,12 +26,11 @@ request.interceptors.request.use(
 );
 
 // response 拦截器
-// 可以在接口响应后统一处理结果
 request.interceptors.response.use(
   (response) => {
     let res = response.data;
-    // console.log("status: " + response.status);
-    // console.log("response.data: " + res);
+    console.log("status: " + response.status);
+    console.log("response.data: " + res);
 
     // 如果是返回的文件
     if (response.config.responseType === "blob") {
@@ -46,7 +43,7 @@ request.interceptors.response.use(
     return res;
   },
   (error) => {
-    console.log("request.js: " + error); // for debug
+    console.log("request.js: " + error);
     if (error.response.data.status != 200) {
       ElMessage({
         type: "error",
