@@ -3,8 +3,8 @@ package com.example.springboot.controller;
 import com.example.springboot.dao.UserDao;
 import com.example.springboot.entity.User;
 import com.example.springboot.util.TimeChecker;
-import com.example.springboot.common.Authorization;
 import com.example.springboot.util.TokenProcessor;
+import com.example.springboot.common.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,7 +40,9 @@ public class UserController {
 
     @PostMapping(value = "/api/auth/verify")
     public boolean verify(@RequestBody User user) {
-        Authorization auth = new Authorization();
-        return auth.verify(user);
+        String token = userDao.getToken(user.getId());
+        String expTime = userDao.gerExpTime(user.getId());
+        return new Authorization().verify(user, token, expTime);
     }
+
 }

@@ -2,18 +2,16 @@ package com.example.springboot.common;
 
 import com.example.springboot.entity.User;
 import com.example.springboot.util.TimeChecker;
-import com.example.springboot.dao.UserDao;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class Authorization {
 
-    private UserDao userDao;
-
-    public boolean verify(User user) {
-        String token = userDao.getToken(user.getId());
-        String expTime = userDao.gerExpTime(user.getId());
+    public boolean verify(User user, String token, String expTime) {
         if (user.getToken().equals(token)) {
             TimeChecker timeCheck = new TimeChecker();
             return timeCheck.checkTime(expTime);
         } else return false;
     }
+
 }
