@@ -16,7 +16,42 @@ const routes = [
         meat: {
             title: "登录"
         }
+    },
+    {
+        path: '/HomePage',
+        name: 'HomePage',
+        component: () => import('../views/HomePage.vue'),
+        meat: {
+            title: "主页"
+        },
+        children:[
+            {
+                path: '/HomePage/Overview',
+                component: () => import('../components/Overview.vue'),
+            },
+            {
+                path: '/HomePage/MonitorsManagement',
+                component: () => import('../components/MonitorsManagement.vue'),
+            },
+            {
+                path: '/HomePage/Events',
+                component: () => import('../components/Events.vue'),
+            },
+            {
+                path: '/HomePage/ServersManagement',
+                component: () => import('../components/ServersManagement.vue'),
+            },
+            {
+                path: '/HomePage/PersonalInformation',
+                component: () => import('../components/PersonalInformation.vue'),
+            },
+            {
+                path: '/HomePage/About',
+                component: () => import('../components/About.vue'),
+            },
+        ],
     }
+    
 
 ]
 
