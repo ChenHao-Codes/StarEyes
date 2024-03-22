@@ -1,0 +1,62 @@
+﻿<UserControl
+    x:Class="StarEyes_GUI.Views.Pages.CameraView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid>
+        <hc:ScrollViewer>
+            <WrapPanel x:Name="page" Margin="0,0,0,10">
+                <Border
+                    Width="{Binding CameraViewModel.ItemMaxWidth}"
+                    Margin="10,10,10,10"
+                    Style="{StaticResource BorderRegion}">
+                    <Border.Effect>
+                        <DropShadowEffect
+                            BlurRadius="16"
+                            Opacity=".3"
+                            ShadowDepth="6"
+                            Color="Gray" />
+                    </Border.Effect>
+                    <StackPanel>
+                        <Grid Margin="0,0,0,15">
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="36"
+                                FontWeight="Bold"
+                                Text="{Binding CameraViewModel.Info_TotalCameraNum}" />
+                            <Label
+                                Height="44"
+                                Margin="0,4,0,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="{Binding CameraViewModel.Style_AllCameraStatus_BG}"
+                                Content="{Binding CameraViewModel.Info_AllCameraStatus}"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Foreground="{Binding CameraViewModel.Style_AllCameraStatus_FG}" />
+                        </Grid>
+                        <hc:Divider
+                            Margin="0,30,0,10"
+                            LineStroke="Gray"
+                            LineStrokeThickness="2" />
+                        <Button
+                            x:Name="AddButton"
+                            Height="40"
+                            HorizontalAlignment="Right"
+                            FontSize="17"
+                            FontWeight="Bold"
+                            Style="{StaticResource ButtonPrimary}">
+                            新增摄像头
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </WrapPanel>
+        </hc:ScrollViewer>
+    </Grid>
+</UserControl>

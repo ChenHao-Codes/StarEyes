@@ -1,0 +1,128 @@
+﻿<Window
+    x:Class="StarEyes_GUI.Views.Pages.Dialogs.EditCameraItemView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="{Binding theTitle}"
+    Width="430"
+    Height="510"
+    Closed="Window_Closed"
+    Icon="/Assets/icons/logo32.png"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Grid>
+        <StackPanel Margin="10,0,10,10">
+            <hc:TextBox
+                x:Name="CameraNameBox"
+                Width="380"
+                Margin="0,0,0,12"
+                hc:InfoElement.Placeholder="{Binding CameraItemViewModel.CameraName}"
+                hc:InfoElement.Title="摄像头名称"
+                KeyDown="CameraNameBox_KeyDown"
+                LostFocus="CameraNameBox_LostFocus"
+                ShowClearButton="True" />
+            <WrapPanel>
+                <hc:TextBox
+                    x:Name="CameraIPBox"
+                    Width="170"
+                    Margin="7,0,0,12"
+                    hc:InfoElement.Placeholder="{Binding CameraItemViewModel.CameraIP}"
+                    hc:InfoElement.Title="局域网 IP"
+                    KeyDown="CameraIPBox_KeyDown"
+                    LostFocus="CameraIPBox_LostFocus"
+                    ShowClearButton="True" />
+                <hc:TextBox
+                    x:Name="CameraPortBox"
+                    Width="170"
+                    Margin="40,0,0,12"
+                    hc:InfoElement.Placeholder="{Binding CameraItemViewModel.CameraPort}"
+                    hc:InfoElement.Title="端口号"
+                    KeyDown="CameraPortBox_KeyDown"
+                    LostFocus="CameraPortBox_LostFocus"
+                    ShowClearButton="True" />
+            </WrapPanel>
+            <WrapPanel>
+                <hc:TextBox
+                    x:Name="RTSPAccountBox"
+                    Width="170"
+                    Margin="7,0,0,12"
+                    hc:InfoElement.Placeholder="{Binding CameraItemViewModel.RTSPAcount}"
+                    hc:InfoElement.Title="RTSP 用户名"
+                    KeyDown="RTSPAccountBox_KeyDown"
+                    LostFocus="RTSPAccountBox_LostFocus"
+                    ShowClearButton="True" />
+                <hc:TextBox
+                    x:Name="RTSPPasswordBox"
+                    Width="170"
+                    Margin="40,0,0,12"
+                    hc:InfoElement.Placeholder="{Binding CameraItemViewModel.RTSPPassword}"
+                    hc:InfoElement.Title="RTSP 密码"
+                    KeyDown="RTSPPasswordBox_KeyDown"
+                    LostFocus="RTSPPasswordBox_LostFocus"
+                    ShowClearButton="True" />
+            </WrapPanel>
+            <hc:TextBox
+                x:Name="CameraEventNumBox"
+                Width="380"
+                Margin="0,0,0,12"
+                hc:InfoElement.Placeholder="{Binding CameraItemViewModel.CameraEventNum}"
+                hc:InfoElement.Title="检测事件总数"
+                KeyDown="CameraEventNumBox_KeyDown"
+                LostFocus="CameraEventNumBox_LostFocus"
+                ShowClearButton="True" />
+            <WrapPanel>
+                <hc:TextBox
+                    x:Name="CameraPosLonBox"
+                    Width="170"
+                    Margin="7,0,0,0"
+                    hc:InfoElement.Placeholder="{Binding CameraItemViewModel.CameraPosLon}"
+                    hc:InfoElement.Title="经度"
+                    KeyDown="CameraPosLonBox_KeyDown"
+                    LostFocus="CameraPosLonBox_LostFocus"
+                    ShowClearButton="True" />
+                <hc:TextBox
+                    x:Name="CameraPosLatBox"
+                    Width="170"
+                    Margin="40,0,0,0"
+                    hc:InfoElement.Placeholder="{Binding CameraItemViewModel.CameraPosLat}"
+                    hc:InfoElement.Title="纬度"
+                    LostFocus="CameraPosLatBox_LostFocus"
+                    ShowClearButton="True" />
+            </WrapPanel>
+            <WrapPanel Margin="0,25,0,0">
+                <Button
+                    Width="170"
+                    Height="40"
+                    Margin="7,0,0,0"
+                    Click="Cancel_Click"
+                    FontSize="16"
+                    Style="{StaticResource ButtonPrimary}">
+                    取消
+                </Button>
+                <Button
+                    x:Name="Confirm"
+                    Width="170"
+                    Height="40"
+                    Margin="40,0,0,0"
+                    Click="Confirm_Click"
+                    FontSize="16"
+                    Style="{StaticResource ButtonPrimary}">
+                    确定
+                </Button>
+            </WrapPanel>
+            <Button
+                x:Name="Delete"
+                Width="380"
+                Height="40"
+                Margin="0,15,0,0"
+                Click="Delete_Click"
+                FontSize="16"
+                Style="{StaticResource ButtonDanger}">
+                删除摄像头
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

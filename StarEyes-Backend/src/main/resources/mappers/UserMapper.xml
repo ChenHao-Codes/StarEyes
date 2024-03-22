@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springboot.dao.UserDao">
+        <!--<insert id="insert">
+                INSERT INTO sys_users(id, password) VALUES(#{id}, #{password});
+        </insert>
+
+        <update id="update">
+                UPDATE sys_users SET password = #{password} WHERE id = #{id};
+        </update>
+
+        <delete id="delete">
+                DELETE FROM sys_users WHERE id = #{id};
+        </delete>
+
+        <select id="findAll" resultType="com.example.springboot.entity.User">
+                SELECT * FROM sys_users;
+        </select>
+
+        <select id="getByID" resultType="com.example.springboot.entity.User">
+                SELECT * FROM sys_users WHERE id = #{id};
+        </select>
+
+        <select id="checkByID" resultType="com.example.springboot.entity.User">
+                SELECT * FROM sys_users WHERE id = #{id} AND password = #{password};
+        </select>-->
+
+        <select id="loginByID" resultType="com.example.springboot.entity.User">
+                SELECT * FROM sys_users WHERE id = #{id} AND password = #{password};
+        </select>
+        
+        <update id="saveToken">
+                UPDATE sys_users SET token = #{token} WHERE id = #{id};
+        </update>
+
+        <update id="saveExpTime">
+                UPDATE sys_users SET exptime = #{time} WHERE id = #{id};
+        </update>
+
+        <select id="getToken" resultType="java.lang.String">
+                SELECT token FROM sys_users WHERE id = #{id};
+        </select>
+
+        <select id="gerExpTime" resultType="java.lang.String">
+                SELECT exptime FROM sys_users WHERE id = #{id};
+        </select>
+
+        <select id="getOrganization" resultType="java.lang.String">
+                SELECT organization FROM sys_users WHERE id = #{id};
+        </select>
+        
+        <select id="getCameras" resultType="com.example.springboot.entity.Camera">
+                SELECT * FROM cameras WHERE organization = #{organization};
+        </select>
+
+        <select id="getUserInformation" resultType="com.example.springboot.entity.UserInformation">
+                SELECT * FROM sys_users WHERE id = #{id};
+        </select>
+
+        <select id="getEventsForOneCamera" resultType="com.example.springboot.entity.Event">
+                SELECT * FROM events WHERE cam_id = #{cam_id};
+        </select>
+
+        <update id="setReadStatus">
+                UPDATE events SET have_read = 1 WHERE id = #{id};
+        </update>
+
+        <update id="updateCamera">
+                UPDATE cameras SET  cam_name = #{cam_name},pos_lon = #{pos_lon}, pos_lat = #{pos_lat} WHERE cam_id = #{cam_id};
+        </update>
+
+        <delete id="deleteEvent" parameterType="int">
+                DELETE FROM events WHERE id = #{id};
+        </delete>
+
+        <update id="changeUserInfo">
+                UPDATE sys_users SET username = #{username},email = #{email} , phone = #{phone}, wechat = #{wechat} WHERE id = #{id};
+        </update>
+
+        <update id="changeUserPassword">
+                UPDATE sys_users SET password = #{password} WHERE id = #{id};
+        </update>
+
+        <insert id="addEvent">
+                INSERT INTO events (cam_id,time,have_read,event_type) VALUES (#{cam_id},#{time},#{have_read},#{event_type});
+        </insert>
+</mapper>

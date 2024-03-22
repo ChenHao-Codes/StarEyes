@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="StarEyes_GUI.Views.Pages.ServerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style
+            x:Key="ItemBorder"
+            BasedOn="{StaticResource BorderRegion}"
+            TargetType="Border">
+            <Setter Property="Margin" Value="10,10,10,10" />
+            <Setter Property="Width" Value="{Binding ServerViewModel.ItemWidth}" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect
+                        BlurRadius="16"
+                        Opacity=".3"
+                        ShadowDepth="6"
+                        Color="Gray" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Border Width="{Binding ServerViewModel.ItemMaxWidth}" Style="{StaticResource ItemBorder}">
+            <WebBrowser x:Name="browser" />
+        </Border>
+    </Grid>
+</UserControl>
